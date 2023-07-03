@@ -1,3 +1,5 @@
+import os
+import json
 import time
 import random
 from tqdm import tqdm
@@ -7,6 +9,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options
 
+from dotenv import dotenv_values
+env_vars = dotenv_values('.env')
+
 import functions.functions as functions
 
 # Download the Gutenberg corpus if not already downloaded
@@ -14,13 +19,13 @@ import functions.functions as functions
 # nltk.download('gutenberg')
 # nltk.download('punkt')
 
+def generate_profiles_from_env():
 
-MICROSOFT_PROFILE_PATHS = {
-    'sujeets207@outlook.in':'/home/sujeet/.config/microsoft-edge/Default-Test-Profile',
-    'powerfist01@hotmail.com':'/home/sujeet/.config/microsoft-edge/Default-Test-MrPowerfist-Profile',
-    'neetika207@outlook.com': '/home/sujeet/.config/microsoft-edge/Default-Test-Neetika-Profile',
-    'neetika207@outlook.in': '/home/sujeet/.config/microsoft-edge/Default-Test-Neetika-Profile-2',
-}
+    email_profile_paths = {}
+    for _, (key, value) in enumerate(env_vars.items()):
+        email_profile_paths[key] = value
+
+    return email_profile_paths
 
 def generate_random_sentence():
 
@@ -68,6 +73,8 @@ if __name__ == '__main__':
     
     print('Get ready! It"s going to be a bumpy ride!\n')
 
+    MICROSOFT_PROFILE_PATHS = generate_profiles_from_env()
+
     for email, config_path in MICROSOFT_PROFILE_PATHS.items():
 
         is_done = is_done_for_the_day(email)
@@ -79,9 +86,8 @@ if __name__ == '__main__':
 
         print('For profile: ', email)
         for i in tqdm(range(32 - search_count)):
-            # run_script(config_path)
-
-            search_count += 1
+            run_script(config_path)
             functions.update_search_count(email, search_count)
+            search_count += 1
 
     print('\nAll done for the day!')

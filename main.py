@@ -7,7 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options
 
-import functions as functions
+import functions.functions as functions
 
 # Download the Gutenberg corpus if not already downloaded
 # import nltk

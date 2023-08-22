@@ -84,10 +84,10 @@ if __name__ == '__main__':
         if(search_count == 0): 
             functions.insert_search_count(email, search_count)
 
-        print('For profile: ', email)
+        print('For profile: ', email, f'{32 - search_count}' + ' searches remaining')
         for i in tqdm(range(32 - search_count)):
             run_script(config_path)
-            functions.update_search_count(email, search_count)
             search_count += 1
+            functions.update_search_count(email, search_count)
 
     print('\nAll done for the day!')
